@@ -1,9 +1,10 @@
 import './App.css';
+import { PlayArea } from './PlayArea';
 
 function App() {
   return (
     <div>
-      Hello
+      <PlayArea/>
     </div>
   );
 }
