@@ -43,6 +43,7 @@ export const PlayArea = props => {
             const comb3 = boxes[winning[2] - 1].value
             if (comb1 && comb2 && comb3 && comb1 === comb2 && comb2 === comb3) {
                 setIsWinner(true)
+                document.getElementsByTagName("body")[0].style.overflow = "hidden"
             }
         })
     }
@@ -51,6 +52,7 @@ export const PlayArea = props => {
         setIsYourTurn(false)
         setIsWinner(false)
         setBoxes([...indexArray])
+        document.getElementsByTagName("body")[0].style.overflow = "auto"
     }
 
     return (
