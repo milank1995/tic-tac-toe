@@ -46,22 +46,55 @@ export const PlayArea = props => {
         })
     }
 
+    const onNewGame = () => {
+        setIsYourTurn(false)
+        setIsWinner(false)
+        setBoxes([...indexArray])
+    }
+
     return (
-        <div className="container">
-            <div className="boxes">
-                {
-                    boxes.map((_, index) => (
-                        <button
-                            key={index.toString()}
-                            id={index}
-                            onClick={() => onBoxClick(index)}
-                            disabled={_.value || isWinner}
-                        >
-                            {_.value}
-                        </button>
-                    ))
-                }
+        <main>
+            <h1>Tic Tac Toe</h1>
+            <div className="container">
+                <div className="game">
+                    {
+                        boxes.map((_, index) => (
+                            <button
+                                className="box"
+                                key={index.toString()}
+                                id={index.toString()}
+                                onClick={() => onBoxClick(index)}
+                                disabled={_.value || isWinner}
+                            >
+                                {_.value}
+                            </button>
+                        ))
+                    }
+                </div>
             </div>
-        </div>
+            <div className="msg-container">
+                {
+                    isWinner ? (
+                        <>
+                            <p id="msg">Winner</p>
+                            <button
+                                id="new-btn"
+                                onClick={onNewGame}
+                            >
+                                New Game
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            id="reset-btn"
+                            onClick={onNewGame}
+                        >
+                            Reset Game
+                        </button>
+                    )
+                }
+
+            </div>
+        </main>
     )
 }
