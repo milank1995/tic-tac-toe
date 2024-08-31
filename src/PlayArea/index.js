@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react"
+import Confetti from 'react-confetti'
 
 const winningCombo = [
     [1, 4, 7],
@@ -54,6 +55,16 @@ export const PlayArea = props => {
 
     return (
         <main>
+
+            {
+                isWinner ? (
+                    <Confetti
+                        recycle={false}
+                        numberOfPieces={1000}
+                    />
+                ) : null
+            }
+
             <h1 className="game-title">Tic Tac Toe</h1>
             <div className="container">
                 <div className="game">
