@@ -1,6 +1,4 @@
-import React, {useEffect} from "react"
-
-let isYourTurn = false
+import React, {useEffect, useState} from "react"
 
 const winningCombo = [
     [1, 4, 7],
@@ -18,30 +16,32 @@ export const PlayArea = props => {
         value: '',
         index: i + 1
     }))
-    const [boxes, setBoxes] = React.useState(indexArray)
+    const [boxes, setBoxes] = useState(indexArray)
+    const [isYourTurn, setIsYourTurn] = useState(false)
+    const [isWinner, setIsWinner] = useState(false)
 
     useEffect(() => {
-        isWinner()
+        onWinnerChecking()
     }, [boxes]);
 
     const onBoxClick = (index) => {
         if (isYourTurn) {
             boxes[index].value = "X"
-            isYourTurn = false
+            setIsYourTurn(false)
         } else {
             boxes[index].value = "O"
-            isYourTurn = true
+            setIsYourTurn(true)
         }
         setBoxes([...boxes])
     }
 
-    const isWinner = () => {debugger
+    const onWinnerChecking = () => {
         winningCombo.forEach(winning => {
             const comb1 = boxes[winning[0] - 1].value
             const comb2 = boxes[winning[1] - 1].value
             const comb3 = boxes[winning[2] - 1].value
             if (comb1 && comb2 && comb3 && comb1 === comb2 && comb2 === comb3) {
-                console.log('winner')
+                setIsWinner(true)
             }
         })
     }
@@ -55,6 +55,7 @@ export const PlayArea = props => {
                             key={index.toString()}
                             id={index}
                             onClick={() => onBoxClick(index)}
+                            disabled={_.value || isWinner}
                         >
                             {_.value}
                         </button>
