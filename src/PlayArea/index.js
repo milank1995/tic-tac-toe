@@ -85,12 +85,17 @@ export const PlayArea = props => {
                             </button>
                         </>
                     ) : (
-                        <button
-                            id="reset-btn"
-                            onClick={onNewGame}
-                        >
-                            Reset Game
-                        </button>
+                        <>
+                            <h3 className="turn-msg">
+                                {isYourTurn ? "X" : "O"} Your turn...
+                            </h3>
+                            <button
+                                id="reset-btn"
+                                onClick={onNewGame}
+                            >
+                                Reset Game
+                            </button>
+                        </>
                     )
                 }
 
