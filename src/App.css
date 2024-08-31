@@ -9,8 +9,15 @@ body {
   background-color: #295F98;
 }
 
+.game-title {
+    text-align: center;
+    font-size: xxx-large;
+    margin: 2rem;
+    color: aliceblue;
+}
+
 .container {
-    height: 70vh;
+    height: 60vh;
     display: flex;
 
     justify-content: center;
@@ -57,8 +64,11 @@ body {
 }
 
 #msg {
-    color: #ffffc7;
-    font-size: 5vmin;
+    font-size: 8vmin;
+    background: -webkit-linear-gradient(hsl(312.92deg 94.47% 46.97%), hsl(106.89deg 91.26% 49.24%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
 }
 
 .msg-container {
@@ -66,7 +76,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 4rem;
+    gap: 2rem;
+    position: fixed;
+    bottom: 2rem;
+    width: 100%;
 }
 
 .hide {

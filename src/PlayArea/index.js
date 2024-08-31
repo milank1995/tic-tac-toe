@@ -54,7 +54,7 @@ export const PlayArea = props => {
 
     return (
         <main>
-            <h1>Tic Tac Toe</h1>
+            <h1 className="game-title">Tic Tac Toe</h1>
             <div className="container">
                 <div className="game">
                     {
