@@ -89,3 +89,11 @@ body {
 .turn-msg {
     color: #fff;
 }
+
+button {
+    cursor: pointer;
+}
+
+button[disabled] {
+    cursor: auto;
+}
