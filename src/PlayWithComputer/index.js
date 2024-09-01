@@ -12,7 +12,7 @@ const winningCombo = [
     [3, 5, 7]
 ];
 
-export const PlayArea = props => {
+export const PlayWithComputer = props => {
     const indexArray = [...new Array(9)].map((_, i) => ({
         value: '',
         index: i + 1
