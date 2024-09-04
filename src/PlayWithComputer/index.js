@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useEffect, useState, useCallback} from "react"
 import Confetti from 'react-confetti'
 
 const winningCombo = [
@@ -12,45 +12,42 @@ const winningCombo = [
     [3, 5, 7]
 ];
 
+const initialObject = {
+    1: '',
+    2: '',
+    3: '',
+    4: '',
+    5: '',
+    6: '',
+    7: '',
+    8: '',
+    9: '',
+}
+
 export const PlayWithComputer = props => {
-    const indexArray = [...new Array(9)].map((_, i) => ({
-        value: '',
-        index: i + 1
-    }))
-    const [boxes, setBoxes] = useState(indexArray)
+    const [boxObject, setBoxObject] = useState(initialObject)
     const [isYourTurn, setIsYourTurn] = useState(true)
-    // let isYourTurn = true
     const [isWinner, setIsWinner] = useState(false)
 
     useEffect(() => {
-        onWinnerChecking()
-    }, [boxes]);
+        if(Object.values(boxObject).filter(x => x).length > 0 && !isYourTurn && !isWinner) {
+            const index = onAutoPlaying(boxObject)
+            onBoxClick(index)
+        }
+    }, [boxObject, isWinner, isYourTurn])
 
-    const onBoxClick = (index) => {
-        // if (isYourTurn) {
-            boxes[index].value = "X"
-            setIsYourTurn(false)
-            // isYourTurn = false
-        // } else {
-        //     boxes[index].value = "O"
-        //     setIsYourTurn(true)
-            // isYourTurn = true
-        // }
-        setBoxes([...boxes])
-        // console.log({isWinner})
-        // if(!isWinner && !isYourTurn) {
-        //     const index = onAutoPlaying(boxes)
-        //     if(index !== -1) {
-        //         setTimeout(() => onBoxClick(index), 1000)
-        //     }
-        // }
-    }
+    const onBoxClick = useCallback((index) => {
+        boxObject[index] = isYourTurn ? "X" : "0"
+        onWinnerChecking(boxObject)
+        setIsYourTurn(!isYourTurn)
+        setBoxObject(boxObject)
+    })
 
-    const onWinnerChecking = () => {
+    const onWinnerChecking = (boxObjectLocal) => {
         winningCombo.forEach(winning => {
-            const comb1 = boxes[winning[0] - 1].value
-            const comb2 = boxes[winning[1] - 1].value
-            const comb3 = boxes[winning[2] - 1].value
+            const comb1 = boxObjectLocal[winning[0]]
+            const comb2 = boxObjectLocal[winning[1]]
+            const comb3 = boxObjectLocal[winning[2]]
             if (comb1 && comb2 && comb3 && comb1 === comb2 && comb2 === comb3) {
                 setIsWinner(true)
                 document.getElementsByTagName("body")[0].style.overflow = "hidden"
@@ -59,43 +56,19 @@ export const PlayWithComputer = props => {
     }
 
     const onNewGame = () => {
-        // isYourTurn = false
         setIsYourTurn(false)
         setIsWinner(false)
-        setBoxes([...indexArray])
+        setBoxObject(initialObject)
         document.getElementsByTagName("body")[0].style.overflow = "auto"
     }
 
     const onAutoPlaying = (updatedBoxes) => {
-        const remainingBoxes = updatedBoxes.filter(box => !box.value)
+        const remainingBoxes = Object.keys(updatedBoxes).filter(box => !updatedBoxes[box])
         if(!remainingBoxes.length) return -1
         const randomNumber = Math.floor(Math.random() * remainingBoxes.length)
-        const index = remainingBoxes[randomNumber].index
-        return updatedBoxes.findIndex(box => box.index === index)
+        return remainingBoxes[randomNumber]
     }
 
-    const callback = useCallback((id) => {
-        if(isYourTurn) {
-            onBoxClick(id)
-        }
-    }, [isYourTurn, onBoxClick])
-
-    console.log({isYourTurn})
-
-    useCallback(() => {debugger
-        if (!isYourTurn) {
-            const index = onAutoPlaying(boxes)
-            if(index !== -1) {
-                // setTimeout(() => {
-                    boxes[index].value = "0"
-                    setIsYourTurn(true)
-                // }, 1000)
-            }
-        }
-    }, [boxes, isYourTurn])()
-
-    // aa()
-    // callback()
     return (
         <main>
 
@@ -112,16 +85,15 @@ export const PlayWithComputer = props => {
             <div className="container">
                 <div className="game">
                     {
-                        boxes.map((_, index) => (
+                         Object.keys(boxObject).map((_, index) => (
                             <button
                                 className="box"
                                 key={index.toString()}
                                 id={index.toString()}
-                                // onClick={() => onBoxClick(index)}
-                                onClick={() => callback(index)}
-                                disabled={_.value || isWinner || !isYourTurn}
+                                onClick={() => onBoxClick(_)}
+                                disabled={boxObject[_] || isWinner || !isYourTurn}
                             >
-                                {_.value}
+                                {boxObject[_]}
                             </button>
                         ))
                     }
